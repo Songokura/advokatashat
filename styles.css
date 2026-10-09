@@ -342,10 +342,10 @@ body.vm-open{overflow:hidden}
   /* герой: лист во весь экран, текст внизу */
   .hero-in{display:block;padding:0}
   .hero-sheet{position:absolute;inset:0 calc(-1*var(--gut)) 26%;height:auto;aspect-ratio:auto;width:auto;max-width:none;justify-self:stretch;z-index:1;transform:translateY(calc(-6svh*var(--stay)))}
-  .pan img{object-position:62% 0%}
+  .pan img{object-position:44% 0%}
   .pan-t .face.front,.pan-b .face.front,.pan-t .face.back,.half.top{border-radius:0}
   .sheet-cap,.hero-sheet::before{display:none}
-  .hero-sheet::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;transform:translateZ(1px);background:linear-gradient(180deg,rgba(13,19,34,.6),transparent 14%),linear-gradient(180deg,transparent 30%,rgba(13,19,34,.62) 48%,rgba(13,19,34,.9) 62%,rgba(13,19,34,.97) 80%)}
+  .hero-sheet::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;transform:translateZ(1px);background:linear-gradient(180deg,rgba(13,19,34,.82),rgba(13,19,34,.35) 12%,transparent 22%),linear-gradient(180deg,transparent 30%,rgba(13,19,34,.62) 48%,rgba(13,19,34,.9) 62%,rgba(13,19,34,.97) 80%)}
   .pl-hero .hero-grad{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(13,19,34,.72),transparent 16%),linear-gradient(180deg,transparent 28%,rgba(13,19,34,.62) 48%,rgba(13,19,34,.9) 62%,rgba(13,19,34,.97) 80%);pointer-events:none}
   .hero-txt{position:absolute;left:0;right:0;bottom:max(24px,4svh);z-index:3;transform:translateY(calc(-4svh*var(--stay)))}
   #h1 .l2{font-size:var(--fs,clamp(40px,12vw,64px))}
