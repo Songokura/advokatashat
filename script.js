@@ -344,6 +344,36 @@
     doc.addEventListener("keydown", function (e) { if (e.key === "Escape" && vm.classList.contains("open")) closeVideo(); });
   }
 
+  /* ---------- Документы: лайтбокс ---------- */
+  var dm = doc.getElementById("dm"), dmImg = doc.getElementById("dm-img"), dmCap = doc.getElementById("dm-cap"), dmFull = doc.getElementById("dm-full"), dmLast = null;
+  function setInert(on) {
+    ["main", "hdr", "sticky"].forEach(function (id) { var el = doc.getElementById(id); if (el) el.inert = on; });
+    var ft = doc.querySelector(".foot"); if (ft) ft.inert = on;
+  }
+  function openDoc(card) {
+    if (!dm || !dmImg) return;
+    dmLast = card;
+    var src = card.getAttribute("data-full");
+    var k = card.querySelector(".doc-kind"), tt = card.querySelector(".doc-t");
+    var cap = (k ? k.textContent + ": " : "") + (tt ? tt.textContent : "");
+    dmImg.src = src; dmImg.alt = cap;
+    if (dmCap) dmCap.textContent = cap;
+    if (dmFull) dmFull.href = src;
+    dm.classList.add("open"); doc.body.classList.add("dm-open"); setInert(true);
+    var x = dm.querySelector(".vm-x"); if (x) x.focus({ preventScroll: true });
+  }
+  function closeDoc() {
+    if (!dm || !dm.classList.contains("open")) return;
+    dm.classList.remove("open"); doc.body.classList.remove("dm-open"); setInert(false);
+    setTimeout(function () { if (!dm.classList.contains("open")) dmImg.removeAttribute("src"); }, 320);
+    if (dmLast) { try { dmLast.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  [].forEach.call(doc.querySelectorAll(".doc[data-full]"), function (c) { c.addEventListener("click", function () { openDoc(c); }); });
+  if (dm) {
+    [].forEach.call(dm.querySelectorAll("[data-dm-close]"), function (b) { b.addEventListener("click", closeDoc); });
+    doc.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDoc(); });
+  }
+
   /* ---------- Форма -> WhatsApp ---------- */
   var form = doc.getElementById("form"), thanks = doc.getElementById("thanks"), ferr = doc.getElementById("ferr");
   if (form) {
