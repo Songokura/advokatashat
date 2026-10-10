@@ -1,4 +1,4 @@
-/* Адвокат Асхат - лэндинг. Ванильный JS: плиты и сгиб листа, меню, якоря, язык, кейсы, видео, форма. */
+/* Сайт адвоката Ахметжанова А. К. Ванильный JS: плиты и сгиб листа, меню, якоря, язык, кейсы, видео, форма. */
 (function () {
   "use strict";
   var doc = document, root = doc.documentElement, W = window;
@@ -14,8 +14,8 @@
   var WA_NUM = "77072713575";
   var WA = {
     ru: {
-      "default": "Здравствуйте! Пишу с сайта Адвокат Асхат. Нужна консультация.",
-      hero: "Здравствуйте! Пишу с сайта Адвокат Асхат. Моя ситуация: ",
+      "default": "Здравствуйте, Асхат Канатович! Пишу с сайта. Нужна консультация.",
+      hero: "Здравствуйте, Асхат Канатович! Пишу с сайта. Моя ситуация: ",
       razdel: "Здравствуйте! Нужна консультация по разделу имущества. Моя ситуация: ",
       razvod: "Здравствуйте! Нужна консультация по разводу и семейному спору. Моя ситуация: ",
       nasl: "Здравствуйте! Нужна консультация по наследству. Моя ситуация: ",
@@ -25,11 +25,13 @@
       avr: "Здравствуйте! Заказчик не подписывает акты и не платит. Моя ситуация: ",
       nalogi: "Здравствуйте! Нужна консультация по налоговому или таможенному спору. Моя ситуация: ",
       mediaciya: "Здравствуйте! Нужна консультация по медиации. Моя ситуация: ",
-      kontakty: "Здравствуйте! Пишу с сайта Адвокат Асхат. Моя ситуация: ",
-      sticky: "Здравствуйте! Пишу с сайта Адвокат Асхат. Моя ситуация: "
+      stoimost: "Здравствуйте, Асхат Канатович! Хочу узнать стоимость по моему делу. Моя ситуация: ",
+      otzyv: "Здравствуйте, Асхат Канатович! Хочу оставить отзыв: ",
+      kontakty: "Здравствуйте, Асхат Канатович! Пишу с сайта. Моя ситуация: ",
+      sticky: "Здравствуйте, Асхат Канатович! Пишу с сайта. Моя ситуация: "
     }
   };
-  var FORM_LABELS = { ru: { head: "Заявка с сайта Адвокат Асхат", name: "Имя", phone: "Телефон", msg: "Ситуация" } };
+  var FORM_LABELS = { ru: { head: "Заявка с сайта адвоката Ахметжанова А. К.", name: "Имя", phone: "Телефон", msg: "Ситуация" } };
   W.addEventListener("click", function (e) {
     var a = e.target && e.target.closest ? e.target.closest("a[data-wa]") : null;
     if (!a) return;
@@ -205,29 +207,81 @@
     });
   });
 
-  /* ---------- Кейсы из assets/cases.js ---------- */
-  var CASE_LABELS = { ru: { sit: "Ситуация", did: "Что сделали", res: "Итог", term: "Срок" } };
+  /* ---------- Кейсы из assets/cases.js: фильтр по направлению, итог, скан решения ---------- */
+  var CASE_LABELS = { ru: { sit: "Ситуация", did: "Что сделали", res: "Итог", term: "Срок", proof: "Решение суда", proofNote: "данные скрыты", proofEmpty: "Копия решения суда", proofEmptyNote: "появится после скрытия данных", draft: "Образец", none: "По этому направлению кейсы скоро появятся", rev: "Скриншот отзыва", revNote: "с согласия клиента" } };
   var railCases = doc.getElementById("rail-cases");
+  var caseFilter = "all";
+  var DIR_KEYS = { razdel: "cs.f1", razvod: "cs.f2", nasl: "cs.f3", bankr: "cs.f4", biznes: "cs.f5", dolgi: "cs.f6" };
+  var ZOOM = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.2 16.2 21 21M11 8.4v5.2M8.4 11h5.2"/></svg>';
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function renderCases() {
     if (!railCases || !W.SITE_CASES) return;
     var L = CASE_LABELS[LANG] || CASE_LABELS.ru;
     var KK = LANG === "kk" && W.SITE_KK_CASES ? W.SITE_KK_CASES : null;
-    railCases.innerHTML = W.SITE_CASES.map(function (c) {
+    var list = W.SITE_CASES.filter(function (c) { return caseFilter === "all" || c.dk === caseFilter; });
+    if (!list.length) { railCases.innerHTML = '<p class="case-none">' + esc(L.none) + '</p>'; updateRails(); return; }
+    railCases.innerHTML = list.map(function (c) {
       var d = KK && KK[c.id] ? KK[c.id] : c;
+      var figNote = d.figNote || c.figNote;
+      var proof = c.proof
+        ? '<button class="proof" type="button" data-full="' + esc(c.proof.full) + '" data-cap="' + esc(L.proof + ": " + d.dir) + '"><img src="' + esc(c.proof.t) + '" alt="" loading="lazy" decoding="async"><span class="pf-t"><b>' + esc(L.proof) + '</b><small>' + esc(L.proofNote) + '</small></span><span class="pf-z">' + ZOOM + '</span></button>'
+        : '<div class="proof proof-empty"><span class="pf-sheet" aria-hidden="true"></span><span class="pf-t"><b>' + esc(L.proofEmpty) + '</b><small>' + esc(L.proofEmptyNote) + '</small></span></div>';
       return '<article class="case dog">' +
-        '<span class="tab">' + esc(d.dir) + '</span>' +
+        '<div class="case-top"><span class="tab">' + esc(d.dir) + '</span>' + (c.draft ? '<span class="draft">' + esc(L.draft) + '</span>' : '') + '</div>' +
+        '<div class="case-res"><span class="lbl">' + esc(L.res) + '</span>' +
+          (c.fig ? '<p class="fig"><b>' + esc(c.fig) + '</b>' + (figNote ? '<span>' + esc(figNote) + '</span>' : '') + '</p>' : '') +
+          '<p class="res-t">' + esc(d.res) + '</p></div>' +
         '<dl>' +
         '<div><dt>' + esc(L.sit) + '</dt><dd>' + esc(d.sit) + '</dd></div>' +
         '<div><dt>' + esc(L.did) + '</dt><dd>' + esc(d.did) + '</dd></div>' +
-        '<div class="res"><dt>' + esc(L.res) + '</dt><dd>' + esc(d.res) + '</dd></div>' +
-        '</dl>' +
+        '</dl>' + proof +
         '<p class="term"><span>' + esc(L.term) + '</span><b>' + esc(d.term) + '</b></p>' +
         '</article>';
     }).join("");
+    railCases.scrollLeft = 0;
     updateRails();
   }
+  function setCaseFilter(f) {
+    caseFilter = f || "all";
+    [].forEach.call(doc.querySelectorAll(".cs-fil button"), function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-f") === caseFilter ? "true" : "false");
+    });
+    renderCases();
+  }
+  [].forEach.call(doc.querySelectorAll(".cs-fil button"), function (b) {
+    b.addEventListener("click", function () { setCaseFilter(b.getAttribute("data-f")); });
+  });
+  /* ссылка «Как решались дела ...» с плиты: сначала фильтр, потом прокрутка (обработчик якорей ниже) */
+  W.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest("a[data-cases]") : null;
+    if (a) setCaseFilter(a.getAttribute("data-cases"));
+  }, true);
   renderCases();
+
+  /* ---------- Отзывы из assets/reviews.js; пока пусто - заглушки ---------- */
+  var railRevs = doc.getElementById("rail-revs");
+  function renderReviews() {
+    if (!railRevs) return;
+    var L = CASE_LABELS[LANG] || CASE_LABELS.ru;
+    var KK = LANG === "kk" && W.SITE_KK_REVIEWS ? W.SITE_KK_REVIEWS : null;
+    var list = W.SITE_REVIEWS || [];
+    if (!list.length) {
+      railRevs.innerHTML = ["razdel", "nasl", "razvod"].map(function (k) {
+        return '<div class="rev rev-ph"><span class="rev-phone" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>' +
+          '<span class="rev-cap"><b>' + esc(L.rev) + '</b><small>' + esc(t(DIR_KEYS[k])) + '</small></span></div>';
+      }).join("");
+    } else {
+      railRevs.innerHTML = list.map(function (r) {
+        var d = KK && KK[r.id] ? KK[r.id] : r;
+        var cap = (d.who || L.rev) + (r.dk && DIR_KEYS[r.dk] ? " · " + t(DIR_KEYS[r.dk]) : "");
+        return '<figure class="rev">' +
+          (r.img ? '<button class="rev-shot" type="button" data-full="' + esc(r.img) + '" data-cap="' + esc(cap) + '"><img src="' + esc(r.img) + '" width="' + (r.w || 720) + '" height="' + (r.h || 1280) + '" alt="' + esc(L.rev + ": " + cap) + '" loading="lazy" decoding="async"><span class="pf-z">' + ZOOM + '</span></button>' : '') +
+          (d.text ? '<blockquote>' + esc(d.text) + '</blockquote>' : '') +
+          '<figcaption class="rev-cap"><b>' + esc(d.who || L.rev) + '</b><small>' + esc(r.dk && DIR_KEYS[r.dk] ? t(DIR_KEYS[r.dk]) : L.revNote) + '</small></figcaption></figure>';
+      }).join("");
+    }
+    updateRails();
+  }
 
   /* ---------- Язык: RU в разметке, KZ подгружается отдельным файлом ---------- */
   var I18N = { ru: {} };
@@ -243,6 +297,7 @@
   altEls.forEach(function (el) { RU[el.getAttribute("data-i-alt")] = el.getAttribute("alt"); });
   RU["meta.title"] = doc.title;
   RU["meta.desc"] = metaDesc ? metaDesc.getAttribute("content") : "";
+  renderReviews();
   function t(key) { var d = I18N[LANG] || RU; return d[key] != null ? d[key] : RU[key]; }
   function applyLang(lang) {
     if (!I18N[lang]) lang = "ru";
@@ -260,6 +315,7 @@
     });
     try { localStorage.setItem("ashat-lang", lang); } catch (e) {}
     renderCases();
+    renderReviews();
     fitText();
   }
   function loadLang(lang, done) {
@@ -355,7 +411,7 @@
     dmLast = card;
     var src = card.getAttribute("data-full");
     var k = card.querySelector(".doc-kind"), tt = card.querySelector(".doc-t");
-    var cap = (k ? k.textContent + ": " : "") + (tt ? tt.textContent : "");
+    var cap = card.getAttribute("data-cap") || ((k ? k.textContent + ": " : "") + (tt ? tt.textContent : ""));
     dmImg.src = src; dmImg.alt = cap;
     if (dmCap) dmCap.textContent = cap;
     if (dmFull) dmFull.href = src;
@@ -368,7 +424,10 @@
     setTimeout(function () { if (!dm.classList.contains("open")) dmImg.removeAttribute("src"); }, 320);
     if (dmLast) { try { dmLast.focus({ preventScroll: true }); } catch (e) {} }
   }
-  [].forEach.call(doc.querySelectorAll(".doc[data-full]"), function (c) { c.addEventListener("click", function () { openDoc(c); }); });
+  doc.addEventListener("click", function (e) {
+    var c = e.target && e.target.closest ? e.target.closest(".doc[data-full], .proof[data-full], .rev-shot[data-full]") : null;
+    if (c) openDoc(c);
+  });
   if (dm) {
     [].forEach.call(dm.querySelectorAll("[data-dm-close]"), function (b) { b.addEventListener("click", closeDoc); });
     doc.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDoc(); });
