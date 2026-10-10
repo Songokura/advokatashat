@@ -243,6 +243,8 @@ body.menu-open .hdr::before{opacity:0}
 .case .res dd{font-weight:600}
 .case .term{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--mute)}
 .case .term b{font:600 18px var(--fd);color:var(--ink)}
+.case .term b.court{font:500 14px/1.35 var(--ft);text-align:right;max-width:70%}
+.case .term+.term{margin-top:0;border-top:0;padding-top:0}
 .cases-foot{margin-top:12px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .cases-foot .nick{color:var(--fg2);font-size:15px}
 
@@ -525,25 +527,6 @@ button.proof:hover{border-color:var(--acc);background:var(--white)}
 .pf-sheet{width:46px;height:60px;flex:0 0 auto;border-radius:3px;border:1px dashed rgba(20,24,33,.3);background:repeating-linear-gradient(0deg,transparent 0 8px,rgba(20,24,33,.1) 8px 9px) 8px 10px/30px 40px no-repeat,var(--white)}
 .case-none{padding:40px 0;color:var(--fg2);font-size:17px}
 
-/* отзывы */
-.arrs-ink .arr{border-color:rgba(20,24,33,.28);background:var(--white);color:var(--ink)}
-.arrs-ink .arr:hover{background:var(--paper)}
-.rev{flex:0 0 min(80vw,389px);scroll-snap-align:start;margin:0;display:flex;flex-direction:column;gap:12px}
-.rev-shot{position:relative;display:block;padding:0;border:1px solid var(--line);border-radius:var(--rad);overflow:hidden;background:var(--white);cursor:pointer}
-.rev-shot img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;object-position:top}
-.rev-shot .pf-z{position:absolute;right:10px;bottom:10px}
-.rev blockquote{margin:0;font:italic 500 17px/1.5 var(--fd);color:var(--ink2)}
-.rev-cap{display:flex;flex-direction:column;gap:3px}
-.rev-cap b{font:600 17px/1.25 var(--fd)}
-.rev-cap small{font-size:13.5px;color:var(--mute)}
-.rev-phone{display:flex;flex-direction:column;justify-content:flex-end;gap:10px;aspect-ratio:4/3;padding:22px 18px;border:1px dashed rgba(20,24,33,.3);border-radius:var(--rad);background:var(--white)}
-.rev-phone i{display:block;height:34px;border-radius:12px 12px 12px 4px;background:var(--paper2);width:78%}
-.rev-phone i:nth-child(2n){align-self:flex-end;width:62%;border-radius:12px 12px 4px 12px;background:var(--acc-lt)}
-.rev-phone i:nth-child(3){height:56px;width:84%}
-.rev-ph .rev-cap{margin-top:12px}
-.rev-foot{margin-top:18px;display:flex;align-items:center;gap:14px 22px;flex-wrap:wrap}
-.rev-foot p{font-size:16px;color:var(--mute);max-width:none}
-
 /* стоимость */
 .pc-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(20px,3vw,40px);align-items:start}
 .pc-in,.pc-box{border:1px solid rgba(205,174,120,.28);border-radius:var(--rad);padding:clamp(22px,2.6vw,32px)}
@@ -575,3 +558,10 @@ button.proof:hover{border-color:var(--acc);background:var(--white)}
 @media (hover:none){
   button.proof:hover{background:transparent}
 }
+
+/* лайтбокс: длинный лист решения прокручивается */
+.dm.dm-tall{align-items:flex-start;overflow-y:auto;padding:56px 16px 24px;overscroll-behavior:contain}
+.dm.dm-tall .dm-box{max-width:min(860px,100%)}
+.dm.dm-tall .dm-box img{max-height:none;width:100%}
+.dm.dm-tall figcaption{order:-1}
+.dm.dm-tall .vm-bd{position:fixed}

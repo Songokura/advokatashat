@@ -26,7 +26,6 @@
       nalogi: "Здравствуйте! Нужна консультация по налоговому или таможенному спору. Моя ситуация: ",
       mediaciya: "Здравствуйте! Нужна консультация по медиации. Моя ситуация: ",
       stoimost: "Здравствуйте, Асхат Канатович! Хочу узнать стоимость по моему делу. Моя ситуация: ",
-      otzyv: "Здравствуйте, Асхат Канатович! Хочу оставить отзыв: ",
       kontakty: "Здравствуйте, Асхат Канатович! Пишу с сайта. Моя ситуация: ",
       sticky: "Здравствуйте, Асхат Канатович! Пишу с сайта. Моя ситуация: "
     }
@@ -208,10 +207,9 @@
   });
 
   /* ---------- Кейсы из assets/cases.js: фильтр по направлению, итог, скан решения ---------- */
-  var CASE_LABELS = { ru: { sit: "Ситуация", did: "Что сделали", res: "Итог", term: "Срок", proof: "Решение суда", proofNote: "данные скрыты", proofEmpty: "Копия решения суда", proofEmptyNote: "появится после скрытия данных", draft: "Образец", none: "По этому направлению кейсы скоро появятся", rev: "Скриншот отзыва", revNote: "с согласия клиента" } };
+  var CASE_LABELS = { ru: { sit: "Ситуация", did: "Что сделали", res: "Итог", term: "Срок", court: "Суд", proof: "Решение суда", proofNote: "обезличено, открыть", proofEmpty: "Копия решения суда", proofEmptyNote: "появится после скрытия данных", draft: "Образец", none: "По этому направлению кейсы скоро появятся" } };
   var railCases = doc.getElementById("rail-cases");
   var caseFilter = "all";
-  var DIR_KEYS = { razdel: "cs.f1", razvod: "cs.f2", nasl: "cs.f3", bankr: "cs.f4", biznes: "cs.f5", dolgi: "cs.f6" };
   var ZOOM = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.2 16.2 21 21M11 8.4v5.2M8.4 11h5.2"/></svg>';
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function renderCases() {
@@ -235,7 +233,8 @@
         '<div><dt>' + esc(L.sit) + '</dt><dd>' + esc(d.sit) + '</dd></div>' +
         '<div><dt>' + esc(L.did) + '</dt><dd>' + esc(d.did) + '</dd></div>' +
         '</dl>' + proof +
-        '<p class="term"><span>' + esc(L.term) + '</span><b>' + esc(d.term) + '</b></p>' +
+        (d.term || c.term ? '<p class="term"><span>' + esc(L.term) + '</span><b>' + esc(d.term || c.term) + '</b></p>' : '') +
+        (d.court || c.court ? '<p class="term"><span>' + esc(L.court) + '</span><b class="court">' + esc(d.court || c.court) + '</b></p>' : '') +
         '</article>';
     }).join("");
     railCases.scrollLeft = 0;
@@ -258,31 +257,6 @@
   }, true);
   renderCases();
 
-  /* ---------- Отзывы из assets/reviews.js; пока пусто - заглушки ---------- */
-  var railRevs = doc.getElementById("rail-revs");
-  function renderReviews() {
-    if (!railRevs) return;
-    var L = CASE_LABELS[LANG] || CASE_LABELS.ru;
-    var KK = LANG === "kk" && W.SITE_KK_REVIEWS ? W.SITE_KK_REVIEWS : null;
-    var list = W.SITE_REVIEWS || [];
-    if (!list.length) {
-      railRevs.innerHTML = ["razdel", "nasl", "razvod"].map(function (k) {
-        return '<div class="rev rev-ph"><span class="rev-phone" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>' +
-          '<span class="rev-cap"><b>' + esc(L.rev) + '</b><small>' + esc(t(DIR_KEYS[k])) + '</small></span></div>';
-      }).join("");
-    } else {
-      railRevs.innerHTML = list.map(function (r) {
-        var d = KK && KK[r.id] ? KK[r.id] : r;
-        var cap = (d.who || L.rev) + (r.dk && DIR_KEYS[r.dk] ? " · " + t(DIR_KEYS[r.dk]) : "");
-        return '<figure class="rev">' +
-          (r.img ? '<button class="rev-shot" type="button" data-full="' + esc(r.img) + '" data-cap="' + esc(cap) + '"><img src="' + esc(r.img) + '" width="' + (r.w || 720) + '" height="' + (r.h || 1280) + '" alt="' + esc(L.rev + ": " + cap) + '" loading="lazy" decoding="async"><span class="pf-z">' + ZOOM + '</span></button>' : '') +
-          (d.text ? '<blockquote>' + esc(d.text) + '</blockquote>' : '') +
-          '<figcaption class="rev-cap"><b>' + esc(d.who || L.rev) + '</b><small>' + esc(r.dk && DIR_KEYS[r.dk] ? t(DIR_KEYS[r.dk]) : L.revNote) + '</small></figcaption></figure>';
-      }).join("");
-    }
-    updateRails();
-  }
-
   /* ---------- Язык: RU в разметке, KZ подгружается отдельным файлом ---------- */
   var I18N = { ru: {} };
   var RU = I18N.ru;
@@ -297,7 +271,6 @@
   altEls.forEach(function (el) { RU[el.getAttribute("data-i-alt")] = el.getAttribute("alt"); });
   RU["meta.title"] = doc.title;
   RU["meta.desc"] = metaDesc ? metaDesc.getAttribute("content") : "";
-  renderReviews();
   function t(key) { var d = I18N[LANG] || RU; return d[key] != null ? d[key] : RU[key]; }
   function applyLang(lang) {
     if (!I18N[lang]) lang = "ru";
@@ -315,7 +288,6 @@
     });
     try { localStorage.setItem("ashat-lang", lang); } catch (e) {}
     renderCases();
-    renderReviews();
     fitText();
   }
   function loadLang(lang, done) {
@@ -412,6 +384,7 @@
     var src = card.getAttribute("data-full");
     var k = card.querySelector(".doc-kind"), tt = card.querySelector(".doc-t");
     var cap = card.getAttribute("data-cap") || ((k ? k.textContent + ": " : "") + (tt ? tt.textContent : ""));
+    dm.classList.toggle("dm-tall", card.classList.contains("proof"));
     dmImg.src = src; dmImg.alt = cap;
     if (dmCap) dmCap.textContent = cap;
     if (dmFull) dmFull.href = src;
@@ -425,7 +398,7 @@
     if (dmLast) { try { dmLast.focus({ preventScroll: true }); } catch (e) {} }
   }
   doc.addEventListener("click", function (e) {
-    var c = e.target && e.target.closest ? e.target.closest(".doc[data-full], .proof[data-full], .rev-shot[data-full]") : null;
+    var c = e.target && e.target.closest ? e.target.closest(".doc[data-full], .proof[data-full]") : null;
     if (c) openDoc(c);
   });
   if (dm) {
