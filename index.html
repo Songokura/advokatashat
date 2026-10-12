@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,500;1,8..60,600&family=Onest:wght@400;500;600&display=swap">
 <link rel="preload" as="image" href="assets/img/ashat-hero-3.webp" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=20261012-1">
+<link rel="stylesheet" href="styles.css?v=20261012-2">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -80,7 +80,8 @@
   <div class="hdr-in">
     <a class="brand" href="#top" aria-label="Адвокат Ахметжанов Асхат Канатович - на главную" data-i-aria="brand.aria"><span class="brand-n"><span class="brand-a">Ахметжанов</span> <span class="brand-b">Асхат Канатович</span></span><span class="brand-s" data-i="brand.s">Адвокат · Астана</span></a>
     <nav class="nav" aria-label="Разделы сайта" data-i-aria="nav.aria">
-      <a href="#razdel-imushchestva" data-i="nav.svc">Услуги</a>
+      <a href="#razdel-imushchestva" data-i="nav.priv">Частным лицам</a>
+      <a href="#biznes" data-i="nav.biz">Бизнесу</a>
       <a href="#keisy" data-i="nav.cases">Кейсы</a>
       <a href="#opyt" data-i="nav.about">Об адвокате</a>
       <a href="#kontakty" data-i="nav.contacts">Контакты</a>
@@ -99,12 +100,17 @@
 
 <div class="menu" id="menu" hidden>
   <nav class="menu-in" aria-label="Мобильное меню" data-i-aria="menu.nav">
+    <p class="menu-g" data-i="m.g1">Частным лицам</p>
     <a href="#razdel-imushchestva" data-i="m.razdel">Раздел имущества</a>
     <a href="#razvod" data-i="m.razvod">Развод и семейные споры</a>
     <a href="#nasledstvo" data-i="m.nasl">Наследство</a>
     <a href="#bankrotstvo" data-i="m.bankr">Банкротство</a>
+    <a href="#raspiska" data-i="m.rasp">Долг по расписке</a>
+    <p class="menu-g" data-i="m.g2">Бизнесу</p>
     <a href="#biznes" data-i="m.biznes">Бизнес и ТОО</a>
-    <a href="#keisy" data-i="m.cases">Успешные кейсы</a>
+    <a href="#avr" data-i="m.avr">Акты и оплата работ</a>
+    <a href="#nalogi" data-i="m.nalogi">Налоговые споры</a>
+    <a class="menu-sep" href="#keisy" data-i="m.cases">Успешные кейсы</a>
     <a href="#stoimost" data-i="m.price">Что входит в цену</a>
     <a href="#opyt" data-i="m.about">Об адвокате</a>
     <a href="#kontakty" data-i="m.contacts">Контакты</a>
@@ -133,6 +139,7 @@
           <a class="btn btn-ghost" href="#razdel-imushchestva"><span data-i="hero.btn2">Услуги и цены</span><svg width="18" height="18"><use href="#ic-arr"/></svg></a>
         </div>
         <a class="iglink" href="https://www.instagram.com/advokat.astana.ashat/" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#ic-ig"/></svg><span data-i="hero.ig">Разборы ситуаций в Instagram</span><svg width="14" height="14"><use href="#ic-arr"/></svg></a>
+        <a class="iglink biz-link" href="#biznes"><span data-i="hero.biz">Юрист для бизнеса и ТОО</span><svg width="14" height="14"><use href="#ic-arr"/></svg></a>
       </div>
       <div class="sheet hero-sheet" aria-hidden="true">
         <div class="tri">
@@ -278,12 +285,12 @@
         <ul class="pts">
           <li data-i="s5.p1">Договоры и претензионная работа</li>
           <li data-i="s5.p2">Взыскание дебиторской задолженности</li>
-          <li data-i="s5.p3">Абонентское сопровождение с фиксированной оплатой</li>
+          <li data-i="s5.p3">Абонентское сопровождение: 200 000 ₸ в месяц</li>
         </ul>
         <a class="case-link" href="#keisy" data-cases="biznes"><span data-i="s5.cl">Как решались дела бизнеса</span><svg width="16" height="16"><use href="#ic-arr"/></svg></a>
         <div class="cta">
           <a class="btn btn-wa" data-wa="biznes" href="https://wa.me/77072713575"><svg width="18" height="18"><use href="#ic-wa"/></svg><span data-i="cta.wa">Написать в WhatsApp</span></a>
-          <span class="price"><b data-i="price.from">от 200&nbsp;000&nbsp;₸</b> <a class="price-more" href="#stoimost" data-i="price.more">Что входит в цену</a></span>
+          <span class="price"><b data-i="price.biz">200&nbsp;000&nbsp;₸ в&nbsp;месяц</b> <a class="price-more" href="#abonent" data-i="price.bizmore">Абонентское сопровождение</a></span>
         </div>
       </div>
       <div class="sheet" aria-hidden="true">
@@ -317,7 +324,7 @@
           <li data-i="ab.c1">Сданы все экзамены на должность судьи</li>
           <li data-i="ab.c2">Академия правосудия Республики Казахстан</li>
           <li data-i="ab.c3">Сертифицированный медиатор: часть споров закрывается без суда</li>
-          <li data-i="ab.c4">Астана, Караганда, Кокшетау, Петропавловск, Костанай, Павлодар</li>
+          <li data-i="ab.c4">Астана, Караганда, Кокшетау, Петропавловск, Костанай, Павлодар: дистанционно и с выездом</li>
         </ul>
         <p class="about-q rv" data-i="ab.q">Не обещаю результат: адвокат не вправе гарантировать решение суда. Обещаю разобрать ситуацию до конца и честно сказать, есть ли перспектива.</p>
       </div>
@@ -523,6 +530,10 @@
             <li data-i="pc.o3">Апелляция и кассация - по отдельному договору</li>
           </ul>
         </div>
+        <div class="pc-box rv" id="abonent">
+          <h3 data-i="pc.abh">Абонентское сопровождение бизнеса</h3>
+          <p data-i="pc.ab">200 000 ₸ в месяц: постоянный юрист для ТОО и ИП. Перечень задач фиксируем в договоре.</p>
+        </div>
         <div class="pc-box rv">
           <h3 data-i="pc.moreh">Когда цена выше</h3>
           <p data-i="pc.more">Много объектов или доля в бизнесе, встречный иск, заседания в другом городе. Об этом говорю сразу, до договора.</p>
@@ -543,11 +554,11 @@
       <h2 data-i="fq.h2">Что спрашивают до обращения</h2>
     </div>
     <div class="faq rv">
-      <details><summary data-i="fq.q1">Сколько стоит ваша работа?</summary><p data-i="fq.a1">От 200 000 ₸ за ведение дела в суде первой инстанции: документы, иск, доказательства и все заседания. Точную сумму называю после разбора ситуации, до начала работы, и она фиксируется в договоре. Госпошлина и экспертиза оплачиваются отдельно.</p></details>
+      <details><summary data-i="fq.q1">Сколько стоит ваша работа?</summary><p data-i="fq.a1">От 200 000 ₸ за ведение дела в суде первой инстанции: документы, иск, доказательства и все заседания. Точную сумму называю после разбора ситуации, до начала работы, и она фиксируется в договоре. Госпошлина и экспертиза оплачиваются отдельно. Абонентское сопровождение бизнеса - 200 000 ₸ в месяц.</p></details>
       <details><summary data-i="fq.q2">Вы гарантируете результат?</summary><p data-i="fq.a2">Нет. Адвокат не вправе гарантировать решение суда. Я даю честную оценку перспектив до того, как вы заплатите, и не берусь за заведомо проигрышные дела.</p></details>
       <details><summary data-i="fq.q3">Пропущен срок вступления в наследство. Всё потеряно?</summary><p data-i="fq.a3">Нет. Срок в 6 месяцев восстанавливается через суд, если причина пропуска уважительная, либо наследство признаётся принятым фактически. Это одна из самых частых категорий моих дел.</p></details>
       <details><summary data-i="fq.q4">Можно ли обойтись без суда?</summary><p data-i="fq.a4">Часто да: соглашение о разделе имущества, нотариальное соглашение об алиментах, медиация. Как медиатор я помогаю договориться, когда обе стороны к этому готовы.</p></details>
-      <details><summary data-i="fq.q5">Работаете с другими городами?</summary><p data-i="fq.a5">Да. Караганда, Кокшетау, Петропавловск, Костанай, Павлодар, а первичная консультация возможна онлайн из любого города.</p></details>
+      <details><summary data-i="fq.q5">Работаете с другими городами?</summary><p data-i="fq.a5">Да: Караганда, Кокшетау, Петропавловск, Костанай, Павлодар. Работаю дистанционно или с выездом, как удобнее по делу. Первичная консультация возможна онлайн из любого города.</p></details>
     </div>
   </div>
 </section>
@@ -628,7 +639,7 @@
   </figure>
 </div>
 
-<script src="assets/cases.js?v=20261012-1"></script>
-<script src="script.js?v=20261012-1"></script>
+<script src="assets/cases.js?v=20261012-2"></script>
+<script src="script.js?v=20261012-2"></script>
 </body>
 </html>

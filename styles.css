@@ -339,7 +339,7 @@ body.menu-open{overflow:hidden}
 body.vm-open{overflow:hidden}
 
 /* ---------- Адаптив ---------- */
-@media (max-width:1000px){
+@media (max-width:1160px){
   .nav{display:none}
   .burger{display:block}
   .ico-ig{display:none}
@@ -565,3 +565,10 @@ button.proof:hover{border-color:var(--acc);background:var(--white)}
 .dm.dm-tall .dm-box img{max-height:none;width:100%}
 .dm.dm-tall figcaption{order:-1}
 .dm.dm-tall .vm-bd{position:fixed}
+
+/* группы мобильного меню и переход для бизнеса в герое (12.10.2026) */
+.menu-g{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin:18px 0 2px}
+.menu-g:first-child{margin-top:0}
+.biz-link{display:flex;width:max-content;max-width:100%;margin-top:10px}
+.menu-g{opacity:0;transition:opacity .4s .1s}.menu.open .menu-g{opacity:1}
+.menu-in>a.menu-sep{margin-top:22px}
