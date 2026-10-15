@@ -3,6 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18515195847"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18515195847');
+
+  /* Конверсия: Интерактивные номера телефонов (клик по tel:) */
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') { window.location = url; }
+    };
+    gtag('event', 'conversion', {
+      'send_to': 'AW-18515195847/r6MMCKDfhJ4dEMfv3fxE',
+      'value': 1.0,
+      'currency': 'USD',
+      'event_callback': callback
+    });
+    return false;
+  }
+
+  /* Конверсия: Отправка формы для потенциальных клиентов */
+  function gtag_report_lead_form() {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-18515195847/9Cz7CLrqhJ4dEMfv3fxE',
+      'value': 1.0,
+      'currency': 'USD'
+    });
+  }
+
+  /* Конверсия: Контакт (клик по WhatsApp) */
+  function gtag_report_contact() {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-18515195847/UnfpCOXdhp4dEMfv3fxE',
+      'value': 1.0,
+      'currency': 'USD'
+    });
+  }
+</script>
 <title>Адвокат в Астане: раздел имущества, развод, наследство - Ахметжанов Асхат Канатович</title>
 <meta name="description" content="Адвокат Ахметжанов Асхат Канатович, Астана. Раздел имущества при разводе, развод и алименты, наследство, банкротство, сопровождение бизнеса. 26 лет в юриспруденции, 12 лет нотариальной практики. Консультация от 200 000 тг.">
 <link rel="canonical" href="https://advokat-ashat.kz/">
@@ -27,7 +66,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,500;1,8..60,600&family=Onest:wght@400;500;600&display=swap">
 <link rel="preload" as="image" href="assets/img/ashat-hero-3.webp" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=20261013-1">
+<link rel="stylesheet" href="styles.css?v=20261015-1">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -639,7 +678,7 @@
   </figure>
 </div>
 
-<script src="assets/cases.js?v=20261013-1"></script>
-<script src="script.js?v=20261013-1"></script>
+<script src="assets/cases.js?v=20261015-1"></script>
+<script src="script.js?v=20261015-1"></script>
 </body>
 </html>

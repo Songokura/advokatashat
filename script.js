@@ -424,10 +424,24 @@
       if (f.message.value.trim()) lines.push(L.msg + ": " + f.message.value.trim());
       var url = "https://wa.me/" + WA_NUM + "?text=" + encodeURIComponent(lines.join("\n"));
       W.open(url, "_blank", "noopener");
+      /* Google Ads: конверсия «Отправка формы для потенциальных клиентов» */
+      if (typeof W.gtag_report_lead_form === "function") W.gtag_report_lead_form();
       if (thanks) { thanks.hidden = false; try { thanks.focus({ preventScroll: true }); } catch (err) {} }
       form.reset();
     });
   }
+
+  /* ---------- Конверсии Google Ads: клики tel / WhatsApp ----------
+     Без preventDefault: tel: не выгружает страницу, wa.me открывается в новой вкладке. */
+  doc.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href*="wa.me"]') : null;
+    if (!a || typeof W.gtag !== "function") return;
+    if (a.getAttribute("href").indexOf("tel:") === 0) {
+      W.gtag("event", "conversion", { send_to: "AW-18515195847/r6MMCKDfhJ4dEMfv3fxE", value: 1.0, currency: "USD" });
+    } else if (typeof W.gtag_report_contact === "function") {
+      W.gtag_report_contact();
+    }
+  });
 
   var year = doc.getElementById("year"); if (year) year.textContent = String(new Date().getFullYear());
 
